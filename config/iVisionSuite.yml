@@ -1,0 +1,1220 @@
+app:
+  description: iVisionSuite官网用
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: iVisionSuite
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.12@a8d5448083aededa394d5940f878f6151f4a472e77766222e654840c74d10287
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/xinference:0.0.7@0b689c15d6fe27e5540f68b70fc33fda70a87942481dec849513f69fd5fb0ede
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: e930cbda-2c45-445a-979a-2a14dbe8cf07
+    name: needTrial
+    selector:
+    - conversation
+    - needTrial
+    value: false
+    value_type: boolean
+  - description: ''
+    id: c186c237-7748-4cbb-8fd7-a7379b0c2417
+    name: needSupport
+    selector:
+    - conversation
+    - needSupport
+    value: false
+    value_type: boolean
+  - description: ''
+    id: 810190ed-35e3-4da3-b914-5ba0e142fdf5
+    name: needSpec
+    selector:
+    - conversation
+    - needSpec
+    value: false
+    value_type: boolean
+  - description: ''
+    id: ae0e4b58-c00e-4758-992c-794ab7494f74
+    name: needDoc
+    selector:
+    - conversation
+    - needDoc
+    value: false
+    value_type: boolean
+  - description: ''
+    id: 51d85358-ff20-4bcf-a358-fec5879385bb
+    name: needCase
+    selector:
+    - conversation
+    - needCase
+    value: false
+    value_type: boolean
+  - description: ''
+    id: ceb5634a-20e8-47d5-9811-a8ab7a236896
+    name: isVisionSense
+    selector:
+    - conversation
+    - isVisionSense
+    value: false
+    value_type: boolean
+  - description: ''
+    id: 4843d5d9-fb80-4fdd-a927-650f8e2b7474
+    name: isSignageCMS
+    selector:
+    - conversation
+    - isSignageCMS
+    value: false
+    value_type: boolean
+  - description: ''
+    id: 37ee264e-919f-4473-b521-61332f341205
+    name: isFaceMatch
+    selector:
+    - conversation
+    - isFaceMatch
+    value: false
+    value_type: boolean
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: 1766623673085-llm
+      source: '1766623673085'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: llm-source-1766627194566-target
+      source: llm
+      sourceHandle: source
+      target: '1766627194566'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1766641115435-true-1766644604475-target
+      source: '1766641115435'
+      sourceHandle: 'true'
+      target: '1766644604475'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1766641115435-9e22c248-f916-4778-a0d4-c2f8b967895b-17666449705550-target
+      source: '1766641115435'
+      sourceHandle: 9e22c248-f916-4778-a0d4-c2f8b967895b
+      target: '17666449705550'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: assigner
+      id: 1766644604475-b6f096b8-5aff-486f-b95c-ee4df05cc8ad-1766646958367-target
+      source: '1766644604475'
+      sourceHandle: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+      target: '1766646958367'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1766646958367-source-1766647029227-target
+      source: '1766646958367'
+      sourceHandle: source
+      target: '1766647029227'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: assigner
+      id: 17666449705550-true-17666494384790-target
+      source: '17666449705550'
+      sourceHandle: 'true'
+      target: '17666494384790'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 17666494384790-source-1766647143122-target
+      source: '17666494384790'
+      sourceHandle: source
+      target: '1766647143122'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1766627194566-source-1766641115435-target
+      source: '1766627194566'
+      sourceHandle: source
+      target: '1766641115435'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: assigner
+      id: 17666449705550-b6f096b8-5aff-486f-b95c-ee4df05cc8ad-17666505301060-target
+      selected: false
+      source: '17666449705550'
+      sourceHandle: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+      target: '17666505301060'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: assigner
+      id: 1766644604475-true-17666505969100-target
+      source: '1766644604475'
+      sourceHandle: 'true'
+      target: '17666505969100'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 17666505969100-source-1766645678675-target
+      source: '17666505969100'
+      sourceHandle: source
+      target: '1766645678675'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: knowledge-retrieval
+      id: 17666505301060-source-1766968825009-target
+      source: '17666505301060'
+      sourceHandle: source
+      target: '1766968825009'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: template-transform
+      id: 1766968825009-source-1766969586495-target
+      source: '1766968825009'
+      sourceHandle: source
+      target: '1766969586495'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: answer
+      id: 1766969586495-source-1766969246449-target
+      source: '1766969586495'
+      sourceHandle: source
+      target: '1766969246449'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1766623673085'
+      position:
+        x: -147.52686350191465
+        y: 254.3779738332753
+      positionAbsolute:
+        x: -147.52686350191465
+        y: 254.3779738332753
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 66864d3e-0398-46dc-a0d7-7fe12ba0b4ce
+          role: system
+          text: "你是一个用户意图识别与结构化抽取模型。\n请根据用户输入内容，识别其涉及的一个或多个意图，并仅以 JSON 格式输出结果。\n\n\
+            【意图类型定义】\nProduct（产品意图）\n当用户输入中明确出现以下产品名称或明确指代时，识别为 Product：\nVisionSense\n\
+            SignageCMS\nFaceMatch\n\n输出规则：\n{\n  \"product\": [\"VisionSense\"]\n\
+            }\n\nMission（任务 / 需求意图）\n当用户表达的是需求、目标、任务或行动请求时，识别为 Mission。\n\n仅允许识别以下\
+            \ Mission 值：\n\nTechnical Term\n-Explore specification & key features\n\
+            -Access technical documentation\n\nGeneral Term\n-Review industry applications\
+            \ & case studies\n-Request operational support & troubleshooting\n-Get\
+            \ a free trial\n\n输出规则：\n{\n  \"Mission\":[\"Get a free trial\"]\n}\n\n\
+            【多意图识别规则】\n支持多意图\n同一输入可包含多个 Product 和 / 或 Mission\n所有识别到的意图都必须输出\n\n产品优先\n\
+            只要输入中出现产品名称，必须识别为对应 Product\n即使同时出现试用、文档、功能等 Mission\n\nMission 可并存\n\
+            可同时输出多个 Mission\n\n禁止推断\n未明确提及的产品或 Mission 不得输出\n\n【最终输出格式（必须严格遵守）】\n\
+            {\n  \"product\":[\"VisionSense\"],\n   \"mission\":[\"Explore specification\
+            \ & key features\"]\n}\n\n输出强制要求：\n只输出 JSON\nproduct与 mission必须是数组\n不要解释\n\
+            不要额外字段\n不要 markdown\n不要换格式\n\n【示例（仅用于模型理解，不要输出）】\n\n用户输入：\nVisionSense\
+            \ 的功能是什么？有没有技术文档？\n\n正确识别：\nproduct = VisionSense\nMission = Explore specification\
+            \ & key features\nMission = Access technical documentation"
+        selected: false
+        title: 用户意图识别
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: 171.40617574817225
+        y: 275.3779738332753
+      positionAbsolute:
+        x: 171.40617574817225
+        y: 275.3779738332753
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function extractIntentInfo(input) {\n  const data = typeof input ===\
+          \ 'string'?JSON.parse(input) : input;\n\n  const products = Array.isArray(data.product)\
+          \ ? data.product : [];\n  const missions = Array.isArray(data.mission) ?\
+          \ data.mission : [];\n\n  return {\n    products,\n    missions,\n    isVisionSense:\
+          \ products.includes(\"VisionSense\"),\n    isSignageCMS: products.includes(\"\
+          SignageCMS\"),\n    isFaceMatch: products.includes(\"FaceMatch\"),\n   \
+          \ needSpec: missions.includes(\"Explore specification & key features\"),\n\
+          \    needDoc: missions.includes(\"Access technical documentation\"),\n \
+          \   needCase: missions.includes(\"Review industry applications & case studies\"\
+          ),\n    needSupport: missions.includes(\"Request operational support & troubleshooting\"\
+          ),\n    needTrial: missions.includes(\"Get a free trial\")\n  };\n}\n\n\
+          function main({text,isFaceMatch_P,isSignageCMS_P,isVisionSense_P,needCase_P,needDoc_P,needSpec_P,needSupport_P,needTrial_P})\
+          \ {\n    const text1 = String(text).replaceAll(/<think>[\\s\\S]*?<\\/think>/g,\
+          \ '')\n            .replaceAll(/<details[\\s\\S]*?<\\/details>/g, '');\n\
+          \    const result = extractIntentInfo(text1);\n\n    return {\n      isFaceMatch:\
+          \ isFaceMatch_P?true:result.isFaceMatch,\n      isSignageCMS: isSignageCMS_P?true:result.isSignageCMS,\n\
+          \      isVisionSense: isVisionSense_P?true:result.isVisionSense,\n     \
+          \ needCase: needCase_P?true:result.needCase,\n      needDoc: needDoc_P?true:result.needDoc,\n\
+          \      needSpec: needSpec_P?true:result.needSpec,\n      needSupport: needSupport_P?true:result.needSupport,\n\
+          \      needTrial: needTrial_P?true:result.needTrial\n    };\n}"
+        code_language: javascript
+        outputs:
+          isFaceMatch:
+            children: null
+            type: boolean
+          isSignageCMS:
+            children: null
+            type: boolean
+          isVisionSense:
+            children: null
+            type: boolean
+          needCase:
+            children: null
+            type: boolean
+          needDoc:
+            children: null
+            type: boolean
+          needSpec:
+            children: null
+            type: boolean
+          needSupport:
+            children: null
+            type: boolean
+          needTrial:
+            children: null
+            type: boolean
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - llm
+          - text
+          value_type: string
+          variable: text
+        - value_selector:
+          - conversation
+          - isFaceMatch
+          value_type: boolean
+          variable: isFaceMatch_P
+        - value_selector:
+          - conversation
+          - isSignageCMS
+          value_type: boolean
+          variable: isSignageCMS_P
+        - value_selector:
+          - conversation
+          - isVisionSense
+          value_type: boolean
+          variable: isVisionSense_P
+        - value_selector:
+          - conversation
+          - needCase
+          value_type: boolean
+          variable: needCase_P
+        - value_selector:
+          - conversation
+          - needDoc
+          value_type: boolean
+          variable: needDoc_P
+        - value_selector:
+          - conversation
+          - needSpec
+          value_type: boolean
+          variable: needSpec_P
+        - value_selector:
+          - conversation
+          - needSupport
+          value_type: boolean
+          variable: needSupport_P
+        - value_selector:
+          - conversation
+          - needTrial
+          value_type: boolean
+          variable: needTrial_P
+      height: 52
+      id: '1766627194566'
+      position:
+        x: 540.9374504987815
+        y: 275.3779738332753
+      positionAbsolute:
+        x: 540.9374504987815
+        y: 275.3779738332753
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 888e25bb-53f9-4565-8a79-ebba164cbd10
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isFaceMatch
+          - comparison_operator: is
+            id: c33b8b23-7117-4766-bce5-0741523d7b03
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isSignageCMS
+          - comparison_operator: is
+            id: 7c8fff7e-1263-4fda-8c23-659f538b5652
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isVisionSense
+          id: 'true'
+          logical_operator: and
+        - case_id: 9e22c248-f916-4778-a0d4-c2f8b967895b
+          conditions:
+          - comparison_operator: is
+            id: 4429aaa7-9c67-4eab-a696-04d6a9ddb7a5
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isFaceMatch
+          - comparison_operator: is
+            id: e8e80082-f4cb-4545-88c6-45a66b05eef9
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isSignageCMS
+          - comparison_operator: is
+            id: c8397257-d5b3-45d6-bc7b-3b57f44c432e
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - isVisionSense
+          id: 9e22c248-f916-4778-a0d4-c2f8b967895b
+          logical_operator: or
+        selected: false
+        title: 判断是否有产品
+        type: if-else
+      height: 276
+      id: '1766641115435'
+      position:
+        x: 902.0520931564847
+        y: 275.3779738332753
+      positionAbsolute:
+        x: 902.0520931564847
+        y: 275.3779738332753
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: f8567214-a902-4ce0-9603-6467a8cf522a
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needCase
+          - comparison_operator: is
+            id: 6e9c59b1-a948-46e6-bd41-7f5ba3780354
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needDoc
+          - comparison_operator: is
+            id: 66f867a0-8d87-478e-9168-8c8fd763aaed
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSpec
+          - comparison_operator: is
+            id: 23b8ca19-993f-4404-9acc-cf1a4804f502
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSupport
+          - comparison_operator: is
+            id: e752514e-0879-41a5-9845-c8e2ba76c130
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needTrial
+          id: 'true'
+          logical_operator: and
+        - case_id: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+          conditions:
+          - comparison_operator: is
+            id: dbf67417-b8f9-43d3-90ff-be7d6ac77361
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needCase
+          - comparison_operator: is
+            id: ea85be55-fdf0-4c42-83fe-e223445a11c9
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needDoc
+          - comparison_operator: is
+            id: 86545e18-7a11-4fea-b530-96608b9ab157
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSpec
+          - comparison_operator: is
+            id: cb27f793-3664-47e9-a08b-ee47a29d799f
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSupport
+          - comparison_operator: is
+            id: 2e1b3cad-b02a-4c62-a57d-eaf4eef9ce20
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needTrial
+          id: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+          logical_operator: or
+        selected: false
+        title: 没产品，判断mission
+        type: if-else
+      height: 380
+      id: '1766644604475'
+      position:
+        x: 1606.1346298201136
+        y: 61.62469837617999
+      positionAbsolute:
+        x: 1606.1346298201136
+        y: 61.62469837617999
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: f8567214-a902-4ce0-9603-6467a8cf522a
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needCase
+          - comparison_operator: is
+            id: 6e9c59b1-a948-46e6-bd41-7f5ba3780354
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needDoc
+          - comparison_operator: is
+            id: 66f867a0-8d87-478e-9168-8c8fd763aaed
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSpec
+          - comparison_operator: is
+            id: 23b8ca19-993f-4404-9acc-cf1a4804f502
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSupport
+          - comparison_operator: is
+            id: e752514e-0879-41a5-9845-c8e2ba76c130
+            value: false
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needTrial
+          id: 'true'
+          logical_operator: and
+        - case_id: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+          conditions:
+          - comparison_operator: is
+            id: dbf67417-b8f9-43d3-90ff-be7d6ac77361
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needCase
+          - comparison_operator: is
+            id: ea85be55-fdf0-4c42-83fe-e223445a11c9
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needDoc
+          - comparison_operator: is
+            id: 86545e18-7a11-4fea-b530-96608b9ab157
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSpec
+          - comparison_operator: is
+            id: cb27f793-3664-47e9-a08b-ee47a29d799f
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needSupport
+          - comparison_operator: is
+            id: 2e1b3cad-b02a-4c62-a57d-eaf4eef9ce20
+            value: true
+            varType: boolean
+            variable_selector:
+            - '1766627194566'
+            - needTrial
+          id: b6f096b8-5aff-486f-b95c-ee4df05cc8ad
+          logical_operator: or
+        selected: false
+        title: 有产品，判断MISSION
+        type: if-else
+      height: 380
+      id: '17666449705550'
+      position:
+        x: 1595.5246138545408
+        y: 693.4495640415307
+      positionAbsolute:
+        x: 1595.5246138545408
+        y: 693.4495640415307
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 无Product，无Mission回复
+        selected: false
+        title: 无Product，无Mission回复
+        type: answer
+        variables: []
+      height: 100
+      id: '1766645678675'
+      position:
+        x: 2356.257229108268
+        y: -82.42441761130392
+      positionAbsolute:
+        x: 2356.257229108268
+        y: -82.42441761130392
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isFaceMatch
+          variable_selector:
+          - conversation
+          - isFaceMatch
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isSignageCMS
+          variable_selector:
+          - conversation
+          - isSignageCMS
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isVisionSense
+          variable_selector:
+          - conversation
+          - isVisionSense
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needCase
+          variable_selector:
+          - conversation
+          - needCase
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needDoc
+          variable_selector:
+          - conversation
+          - needDoc
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needSpec
+          variable_selector:
+          - conversation
+          - needSpec
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needSupport
+          variable_selector:
+          - conversation
+          - needSupport
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needTrial
+          variable_selector:
+          - conversation
+          - needTrial
+          write_mode: over-write
+        selected: false
+        title: 变量赋值
+        type: assigner
+        version: '2'
+      height: 266
+      id: '1766646958367'
+      position:
+        x: 1991.3249951622377
+        y: 241.4158857043065
+      positionAbsolute:
+        x: 1991.3249951622377
+        y: 241.4158857043065
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 请输入product
+        selected: false
+        title: 无Product，有Mission回复
+        type: answer
+        variables: []
+      height: 100
+      id: '1766647029227'
+      position:
+        x: 2379.4343206918047
+        y: 241.4158857043065
+      positionAbsolute:
+        x: 2379.4343206918047
+        y: 241.4158857043065
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 请输入Mission
+        selected: false
+        title: 有Product，无Mission回复
+        type: answer
+        variables: []
+      height: 100
+      id: '1766647143122'
+      position:
+        x: 2379.4343206918047
+        y: 575.3308084017167
+      positionAbsolute:
+        x: 2379.4343206918047
+        y: 575.3308084017167
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isFaceMatch
+          variable_selector:
+          - conversation
+          - isFaceMatch
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isSignageCMS
+          variable_selector:
+          - conversation
+          - isSignageCMS
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - isVisionSense
+          variable_selector:
+          - conversation
+          - isVisionSense
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needCase
+          variable_selector:
+          - conversation
+          - needCase
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needDoc
+          variable_selector:
+          - conversation
+          - needDoc
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needSpec
+          variable_selector:
+          - conversation
+          - needSpec
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needSupport
+          variable_selector:
+          - conversation
+          - needSupport
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1766627194566'
+          - needTrial
+          variable_selector:
+          - conversation
+          - needTrial
+          write_mode: over-write
+        selected: false
+        title: 变量赋值 2
+        type: assigner
+        version: '2'
+      height: 266
+      id: '17666494384790'
+      position:
+        x: 1991.3249951622377
+        y: 575.3308084017167
+      positionAbsolute:
+        x: 1991.3249951622377
+        y: 575.3308084017167
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isFaceMatch
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isSignageCMS
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isVisionSense
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needCase
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needDoc
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needSpec
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needSupport
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needTrial
+          write_mode: over-write
+        selected: false
+        title: 变量赋值 3
+        type: assigner
+        version: '2'
+      height: 266
+      id: '17666505301060'
+      position:
+        x: 1991.3249951622377
+        y: 915.3486714737458
+      positionAbsolute:
+        x: 1991.3249951622377
+        y: 915.3486714737458
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isFaceMatch
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isSignageCMS
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - isVisionSense
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needCase
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needDoc
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needSpec
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needSupport
+          write_mode: over-write
+        - input_type: constant
+          operation: set
+          value: false
+          variable_selector:
+          - conversation
+          - needTrial
+          write_mode: over-write
+        selected: false
+        title: 变量赋值 4
+        type: assigner
+        version: '2'
+      height: 266
+      id: '17666505969100'
+      position:
+        x: 1991.3249951622377
+        y: -82.42441761130392
+      positionAbsolute:
+        x: 1991.3249951622377
+        y: -82.42441761130392
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - 7CGRs4tO+ZDQvth1/TKulxhCV+vpAisOO/Sb/m0IHzhZp19TbbUqFDimzxDEn241
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bce-reranker-base_v1
+            provider: langgenius/xinference/xinference
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1766623673085'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 90
+      id: '1766968825009'
+      position:
+        x: 2379.4343206918047
+        y: 915.3486714737458
+      positionAbsolute:
+        x: 2379.4343206918047
+        y: 915.3486714737458
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1766969586495.output#}}'
+        selected: false
+        title: 直接回复 4
+        type: answer
+        variables: []
+      height: 103
+      id: '1766969246449'
+      position:
+        x: 3116.127153934544
+        y: 915.3486714737458
+      positionAbsolute:
+        x: 3116.127153934544
+        y: 915.3486714737458
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        selected: false
+        template: "{% if retrieval_result and retrieval_result | length > 0 %}\r\n\
+          {% for item in retrieval_result %}\r\n- {{ loop.index }}. {{ item.content\
+          \ }}\r\n{% endfor %}\r\n{% else %}\r\n未检索到相关知识。\r\n{% endif %}\r\n"
+        title: 模板转换
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1766968825009'
+          - result
+          value_type: array[object]
+          variable: retrieval_result
+      height: 52
+      id: '1766969586495'
+      position:
+        x: 2746.0902083196765
+        y: 915.3486714737458
+      positionAbsolute:
+        x: 2746.0902083196765
+        y: 915.3486714737458
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 139.47314941112882
+      y: 327.5169387334655
+      zoom: 0.5185393101715016
+  rag_pipeline_variables: []

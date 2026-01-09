@@ -1,6 +1,5 @@
 //#region 处理输入
 
-
 function main({query, product, mission, step, question}) {
   const PRODUCT = ['VisionSense', 'FaceMatch', 'SignageCMS']
   const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
@@ -29,13 +28,13 @@ function main({query, product, mission, step, question}) {
   }
   if (PRODUCT.includes(option)) {
     new_product = option
-    new_step = !!mission ? 'finish' : 'mission'
+    new_step = 'mission'
     new_mission = mission
     new_question = question + (!!question ? '\n' : '') + PRODUCT_DETAIL[option]
   }
   if (MISSION.includes(option)) {
     new_mission = option
-    new_step = !!product ? 'finish' : 'product'
+    new_step = 'finish'
     new_product = product
     new_question = question + (!!question ? '\n' : '') + MISSION_DETAIL[option]
   }
@@ -57,7 +56,6 @@ function main({query, product, mission, step, question}) {
   }
 }
 
-
 //#endregion
 //#region 处理解析结果
 
@@ -78,34 +76,57 @@ function handleLLM(text) {
   }
   return obj
 }
-function main({text, product, mission, question, query, step}) {
+function main({text, product, mission, question, query, step, history}) {
   const PRODUCT = ['VisionSense', 'FaceMatch', 'SignageCMS']
   const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
+  const PRODUCT_DETAIL = {
+    VisionSense: 'VisionSense: Smart Vision & AI Analytics',
+    FaceMatch: 'SignageCMS: Digital Content Display',
+    SignageCMS: 'FaceMatch: Identity Verification',
+  }
   const obj = handleLLM(text)
-  let new_step = '', new_product = product, new_mission = mission, answer = {}, new_question = question
-  if (!!obj?.['is_follow_up'] && step === 'finish') {
-    new_step = 'finish'
-    new_question = query
+  const is_follow_up = !!obj?.['is_follow_up']
+  let new_step, check = [], new_product = product, new_mission = mission, answer = {}, new_question = question
+  let new_role = '', new_prompt = ''
+  if (!is_follow_up && step === 'finish') {
+    new_product = ''
+    new_mission = ''
+  }
+  if (PRODUCT.includes(obj?.['product'])) {
+    new_product = obj?.['product']
+    check.push('product')
+  }
+  if (MISSION.includes(obj?.['mission'])) {
+    new_mission = obj?.['mission']
+    check.push('mission')
+  }
+  new_step = !!new_product ? 'finish' : 'product'
+  if (!!is_follow_up && step === 'finish') {
+    new_question = (!check.includes('product') ? PRODUCT_DETAIL[product] + '\n' : '') + query
+    new_prompt = '# Conversation History\n' + JSON.stringify(history)
   } else {
-    if (PRODUCT.includes(obj?.['product'])) {
-      new_product = obj?.['product']
-      new_step = !!new_mission ? 'finish' : 'mission'
-    }
-    if (MISSION.includes(obj?.['mission'])) {
-      new_mission = obj?.['mission']
-      new_step = !!new_product ? 'finish' : 'product'
-    }
-    if (new_step !== '') {
+    if (check.length > 0) {
       new_question = question + (!!question ? '\n' : '') + query
-    }
-    if (new_step === '') {
-      new_step = !new_product ? 'product' : (!new_mission ? 'mission' : 'finish')
     }
     if (new_step !== 'finish') {
       answer = {
         step: new_step,
         product: new_product,
         mission: new_mission,
+      }
+    } else {
+      if (new_mission.startsWith('Developer')) {
+        new_role = 'Developer'
+      }
+      if (new_mission.startsWith('Manager')) {
+        new_role = 'Manager'
+      }
+      if (new_mission.startsWith('User')) {
+        new_role = 'User'
+      }
+      if (!new_role) {
+        const user_role = obj?.['user_role']
+        new_role = ['Developer', 'Manager', 'User'].includes(user_role) ? user_role : 'User'
       }
     }
   }
@@ -114,6 +135,8 @@ function main({text, product, mission, question, query, step}) {
     new_product,
     new_mission,
     new_question,
+    new_role,
+    new_prompt,
     answer,
   }
 }

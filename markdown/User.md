@@ -23,6 +23,8 @@ Format based on Mission:
 {{#context#}}
 </context>
 
+{{#conversation.prompt#}}
+
 # User Query
 {{#conversation.question#}}
 

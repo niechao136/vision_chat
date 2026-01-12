@@ -5,8 +5,8 @@ function main({query, product, mission, step, question}) {
   const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
   const PRODUCT_DETAIL = {
     VisionSense: 'VisionSense: Smart Vision & AI Analytics',
-    FaceMatch: 'SignageCMS: Digital Content Display',
-    SignageCMS: 'FaceMatch: Identity Verification',
+    FaceMatch: 'FaceMatch: Identity Verification',
+    SignageCMS: 'SignageCMS: Digital Content Display',
   }
   const MISSION_DETAIL = {
     'Developer-Specs_Function': 'Developer-Specs_Function: Explore specification & key features.',
@@ -81,8 +81,8 @@ function main({text, product, mission, question, query, step, history}) {
   const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
   const PRODUCT_DETAIL = {
     VisionSense: 'VisionSense: Smart Vision & AI Analytics',
-    FaceMatch: 'SignageCMS: Digital Content Display',
-    SignageCMS: 'FaceMatch: Identity Verification',
+    FaceMatch: 'FaceMatch: Identity Verification',
+    SignageCMS: 'SignageCMS: Digital Content Display',
   }
   const obj = handleLLM(text)
   const is_follow_up = !!obj?.['is_follow_up']

@@ -144,10 +144,11 @@ function main({text, product, mission, question, query, step, history}) {
 //#endregion
 //#region 整合回答
 
-function main({output, result, step, question, history}) {
+function main({output, result, step, question, history, product}) {
   const file = Array.from(result).map(o => o.title)
   const answer = {
     step,
+    product,
     summary: output,
     file: Array.from(new Set(file)),
   }

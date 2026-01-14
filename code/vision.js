@@ -1,21 +1,20 @@
 //#region 处理输入
 
 function main({query, product, mission, step, question}) {
-  const PRODUCT = ['VisionSense', 'FaceMatch', 'SignageCMS']
-  const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
+  const MISSION_MAP = {
+    'Explore specification & key features': 'Developer-Specs_Function',
+    'Access technical documentation': 'Developer-Tech_Knowledge',
+    'Review industry applications & case studies': 'Manager-Use_Cases',
+    'Request operational support & troubleshooting': 'User-Operation_Support',
+    'Get a free trial': 'User-Contact_Trial',
+  }
   const PRODUCT_DETAIL = {
     VisionSense: 'VisionSense: Smart Vision & AI Analytics',
     FaceMatch: 'FaceMatch: Identity Verification',
     SignageCMS: 'SignageCMS: Digital Content Display',
   }
-  const MISSION_DETAIL = {
-    'Developer-Specs_Function': 'Developer-Specs_Function: Explore specification & key features.',
-    'Developer-Tech_Knowledge': 'Developer-Tech_Knowledge: Access technical documentation.',
-    'Manager-Use_Cases': 'Manager-Use_Cases: Review industry applications & case studies.',
-    'User-Operation_Support': 'User-Operation_Support: Request operational support & troubleshooting.',
-    'User-Contact_Trial': 'User-Contact_Trial: Get a free trial.',
-  }
-  let new_step = '', new_product = '', new_mission = '', option = '', answer = {}, new_question = ''
+  let new_step = '', new_product = '', new_mission = '', option = '', answer = {}
+  let new_question = '', new_role = ''
   if (String(query).startsWith('button:')) {
     const idx = String(query).indexOf(':')
     option = String(query).slice(idx + 1)
@@ -23,20 +22,34 @@ function main({query, product, mission, step, question}) {
   if (option === 'All') {
     new_step = 'product'
   }
-  if (option === 'More') {
+  if (option === 'More Specific Information') {
     new_step = 'product'
   }
-  if (PRODUCT.includes(option)) {
+  if (!!PRODUCT_DETAIL[option]) {
     new_product = option
     new_step = 'mission'
     new_mission = mission
     new_question = question + (!!question ? '\n' : '') + PRODUCT_DETAIL[option]
   }
-  if (MISSION.includes(option)) {
-    new_mission = option
+  if (!!MISSION_MAP[option]) {
+    new_mission = MISSION_MAP[option]
     new_step = 'finish'
     new_product = product
-    new_question = question + (!!question ? '\n' : '') + MISSION_DETAIL[option]
+    new_question = question + (!!question ? '\n' : '') + option
+  }
+  if (option.startsWith('As a')) {
+    if (option.startsWith('As a developer')) {
+      new_role = 'Developer'
+    }
+    if (option.startsWith('As a manager')) {
+      new_role = 'Manager'
+    }
+    if (option.startsWith('As a user')) {
+      new_role = 'User'
+    }
+    new_step = 'finish'
+    new_product = product
+    new_question = question + (!!question ? '\n' : '') + option
   }
   if (new_step !== 'finish') {
     answer = {
@@ -52,6 +65,7 @@ function main({query, product, mission, step, question}) {
     new_product,
     new_mission,
     new_question,
+    new_role,
     answer,
   }
 }
@@ -77,7 +91,6 @@ function handleLLM(text) {
   return obj
 }
 function main({text, product, mission, question, query, step, history}) {
-  const PRODUCT = ['VisionSense', 'FaceMatch', 'SignageCMS']
   const MISSION = ['Developer-Specs_Function', 'Developer-Tech_Knowledge', 'Manager-Use_Cases', 'User-Operation_Support', 'User-Contact_Trial']
   const PRODUCT_DETAIL = {
     VisionSense: 'VisionSense: Smart Vision & AI Analytics',
@@ -92,7 +105,7 @@ function main({text, product, mission, question, query, step, history}) {
     new_product = ''
     new_mission = ''
   }
-  if (PRODUCT.includes(obj?.['product'])) {
+  if (!!PRODUCT_DETAIL[obj?.['product']]) {
     new_product = obj?.['product']
     check.push('product')
   }

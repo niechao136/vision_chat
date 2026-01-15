@@ -27,7 +27,7 @@ function main({query, product, mission, step, question}) {
   }
   if (!!PRODUCT_DETAIL[option]) {
     new_product = option
-    new_step = 'mission'
+    new_step = !!mission || !!question ? 'finish' : 'mission'
     new_mission = mission
     new_question = question + (!!question ? '\n' : '') + PRODUCT_DETAIL[option]
   }
@@ -99,7 +99,7 @@ function main({text, product, mission, question, query, step, history}) {
   }
   const obj = handleLLM(text)
   const is_follow_up = !!obj?.['is_follow_up']
-  let new_step, check = [], new_product = product, new_mission = mission, answer = {}, new_question = question
+  let new_step, new_product = product, new_mission = mission, answer = {}, new_question = question
   let new_role = '', new_prompt = ''
   if (!is_follow_up && step === 'finish') {
     new_product = ''
@@ -107,20 +107,16 @@ function main({text, product, mission, question, query, step, history}) {
   }
   if (!!PRODUCT_DETAIL[obj?.['product']]) {
     new_product = obj?.['product']
-    check.push('product')
   }
   if (MISSION.includes(obj?.['mission'])) {
     new_mission = obj?.['mission']
-    check.push('mission')
   }
   new_step = !!new_product ? 'finish' : 'product'
   if (!!is_follow_up && step === 'finish') {
-    new_question = (!check.includes('product') ? PRODUCT_DETAIL[product] + '\n' : '') + query
+    new_question = PRODUCT_DETAIL[product] + '\n' + query
     new_prompt = '# Conversation History\n' + JSON.stringify(history)
   } else {
-    if (check.length > 0) {
-      new_question = question + (!!question ? '\n' : '') + query
-    }
+    new_question = question + (!!question ? '\n' : '') + query
     if (new_step !== 'finish') {
       answer = {
         step: new_step,
@@ -155,10 +151,26 @@ function main({text, product, mission, question, query, step, history}) {
 }
 
 //#endregion
+//#region 筛选检索结果
+
+function main({result, product}) {
+  const filter = Array.from(result).filter(o => {
+    const title = String(o?.title ?? '')
+    if (title.startsWith('Technical Documentation') || title.startsWith('Product Page')) {
+      return title.includes(product)
+    }
+    return true
+  })
+  return {
+    filter,
+  }
+}
+
+//#endregion
 //#region 整合回答
 
-function main({output, result, step, question, history, product}) {
-  const file = Array.from(result).map(o => o.title)
+function main({output, filter, step, question, history, product}) {
+  const file = Array.from(filter).map(o => o.title)
   const answer = {
     step,
     product,

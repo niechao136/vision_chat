@@ -23,7 +23,9 @@ function main({query, product, mission, step, question}) {
     new_step = 'product'
   }
   if (option === 'More Specific Information') {
-    new_step = 'product'
+    new_product = product
+    new_question = PRODUCT_DETAIL[product]
+    new_step = 'mission'
   }
   if (!!PRODUCT_DETAIL[option]) {
     new_product = option
@@ -100,26 +102,40 @@ function main({text, product, mission, question, query, step, history}) {
   const obj = handleLLM(text)
   const is_follow_up = !!obj?.['is_follow_up']
   let new_step, new_product = product, new_mission = mission, answer = {}, new_question = question
-  let new_role = '', new_prompt = ''
+  let new_role = '', new_prompt = '', check = [], summary = ''
   if (!is_follow_up && step === 'finish') {
     new_product = ''
     new_mission = ''
   }
   if (!!PRODUCT_DETAIL[obj?.['product']]) {
     new_product = obj?.['product']
+    check.push('product')
   }
   if (MISSION.includes(obj?.['mission'])) {
     new_mission = obj?.['mission']
+    check.push('mission')
   }
   new_step = !!new_product ? 'finish' : 'product'
-  if (!!is_follow_up && step === 'finish') {
+  if (!!is_follow_up && step === 'finish' && check.length > 0) {
     new_question = PRODUCT_DETAIL[product] + '\n' + query
     new_prompt = '# Conversation History\n' + JSON.stringify(history)
   } else {
-    new_question = question + (!!question ? '\n' : '') + query
+    if (check.length === 0) {
+      summary = 'This specific data is not available.'
+      if (step === 'finish') {
+        new_product = product
+        new_question = PRODUCT_DETAIL[product]
+        new_step = 'mission'
+      } else {
+        new_step = step === '' ? 'product' : step
+      }
+    } else {
+      new_question = question + (!!question ? '\n' : '') + query
+    }
     if (new_step !== 'finish') {
       answer = {
         step: new_step,
+        summary,
         product: new_product,
         mission: new_mission,
       }

@@ -33,3 +33,4 @@ Format based on Mission:
 
 # Final Instruction
 Answer the query as an engineer. If code or specific parameters are available in the context, prioritize them.
+**Must respond in the language specified by the language code: {{#conversation.lang#}}**

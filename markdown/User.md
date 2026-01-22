@@ -31,3 +31,4 @@ Format based on Mission:
 
 # Final Instruction
 Answer as a helpful website support assistant.
+**Must respond in the language specified by the language code: {{#conversation.lang#}}**

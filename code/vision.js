@@ -181,11 +181,12 @@ function main({result, product}) {
 //#endregion
 //#region 整合回答
 
-function main({output, filter, step, question, history, product}) {
+function main({output, filter, step, question, history, product, lang}) {
   const file = Array.from(filter).map(o => o.title)
   const answer = {
     step,
     product,
+    lang,
     summary: output,
     file: Array.from(new Set(file)),
   }
